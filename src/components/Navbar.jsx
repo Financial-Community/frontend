@@ -16,7 +16,7 @@ import { NavLink } from 'react-router-dom';
 function Navbar() {
   return (
     <>
-    <Box bg="gray.500" px={4} py={3}>
+    <Box bg="gray.300" px={4} py={3}>
       <Flex alignItems="center" >
         <Heading as="h1" size="md">
           FinComm

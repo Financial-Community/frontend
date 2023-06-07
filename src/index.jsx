@@ -6,6 +6,7 @@ import Dashboard from "./pages/Dashboard";
 import Social from "./pages/Social";
 import {ChakraProvider} from "@chakra-ui/react";
 import Profile from "./pages/Profile";
+import {AuthProvider} from "./services/Auth";
 
 const router = createBrowserRouter([
   {
@@ -32,9 +33,11 @@ const router = createBrowserRouter([
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <ChakraProvider>
-    <RouterProvider router={router} />
-  </ChakraProvider>
+  <AuthProvider>
+    <ChakraProvider>
+      <RouterProvider router={router} />
+    </ChakraProvider>
+  </AuthProvider>
   );
 
 
