@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useContext, createContext } from 'react'
-import firebase from './firebase'
+/*import React, { useState, useEffect, useContext, createContext } from 'react'
+import firebase from "./Firebase";
 
-const authContext = createContext()
+const authContext = createContext();
 
 export function AuthProvider({ children }) {
   const auth = useProvideAuth()
@@ -40,7 +40,7 @@ function useProvideAuth() {
 
   const signout = () => {
     return firebase
-      .auth()
+      //.auth()
       .signOut()
       .then(() => handleUser(false))
   }
@@ -67,4 +67,4 @@ const formatUser = (user) => {
     provider: user.providerData[0].providerId,
     photoUrl: user.photoURL,
   }
-}
+}*/
