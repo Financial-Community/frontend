@@ -4,6 +4,8 @@ import HomePage from "./pages/HomePage";
 import {createBrowserRouter, RouterProvider} from "react-router-dom";
 import Dashboard from "./pages/Dashboard";
 import Social from "./pages/Social";
+import {ChakraProvider} from "@chakra-ui/react";
+import Profile from "./pages/Profile";
 
 const router = createBrowserRouter([
   {
@@ -21,11 +23,18 @@ const router = createBrowserRouter([
     element: <Social />,
     loader: Social,
   },
+  {
+    path: "/Profile",
+    element: <Profile />,
+    loader: Profile,
+  },
 ]);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <RouterProvider router={router} />
+  <ChakraProvider>
+    <RouterProvider router={router} />
+  </ChakraProvider>
   );
 
 
