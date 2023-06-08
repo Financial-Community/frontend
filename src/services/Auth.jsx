@@ -1,70 +1,31 @@
-/*import React, { useState, useEffect, useContext, createContext } from 'react'
-import firebase from "./Firebase";
+import axios from '../api/axios.js';
 
-const authContext = createContext();
+const changePassword = async (data, token) => {
+  const resp = await axios.post('', data, {
+    headers: {
+      token: `${token}`,
+    },
+  });
+  return resp.data;
+};
 
-export function AuthProvider({ children }) {
-  const auth = useProvideAuth()
-  return <authContext.Provider value={auth}>{children}</authContext.Provider>
-}
+const getMe = async (token) => {
+  const resp = await axios.get('', {
+    headers: {
+      token: `${token}`,
+    },
+  });
+  return resp.data;
+};
 
-export const useAuth = () => {
-  return useContext(authContext)
-}
+const login = async (data) => {
+  const resp = await axios.post('', data);
+  return resp.data;
+};
 
-function useProvideAuth() {
-  const [user, setUser] = useState(null)
-  const [loading, setLoading] = useState(true)
+const register = async (data) => {
+  const resp = await axios.post('', data);
+  return resp.data;
+};
 
-  const handleUser = (rawUser) => {
-    if (rawUser) {
-      const user = formatUser(rawUser)
-
-      setLoading(false)
-      setUser(user)
-      return user
-    } else {
-      setLoading(false)
-      setUser(false)
-      return false
-    }
-  }
-
-  const signinWithGitHub = () => {
-    setLoading(true)
-    return firebase
-      .auth()
-      .signInWithPopup(new firebase.auth.GithubAuthProvider())
-      .then((response) => handleUser(response.user))
-  }
-
-  const signout = () => {
-    return firebase
-      //.auth()
-      .signOut()
-      .then(() => handleUser(false))
-  }
-
-  useEffect(() => {
-    const unsubscribe = firebase.auth().onAuthStateChanged(handleUser)
-
-    return () => unsubscribe()
-  }, [])
-
-  return {
-    user,
-    loading,
-    signinWithGitHub,
-    signout,
-  }
-}
-
-const formatUser = (user) => {
-  return {
-    uid: user.uid,
-    email: user.email,
-    name: user.displayName,
-    provider: user.providerData[0].providerId,
-    photoUrl: user.photoURL,
-  }
-}*/
+export { changePassword, getMe, register, login };

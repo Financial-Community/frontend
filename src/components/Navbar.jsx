@@ -27,7 +27,7 @@ function Navbar() {
   //const {user, isAuthenticated, logout} = useAuth();
   return (
     <>
-      <Box bg="gray.300" px={4} py={3}>
+      <Box bg="gray.400" px={4} py={3}>
         <Flex alignItems="center">
           <Heading as="h1" size="xl" fontWeight="extrabold">
             FinComm
@@ -38,9 +38,19 @@ function Navbar() {
               return null;
             }
             return (
-              <Link as={NavLink} to={link.path} bg="gray.500" h="10%"
-                    width="10%" textAlign="center" p={2} fontWeight="bold"
-                    borderRadius={'5px'} exact activeClassName="active" mr={4}>
+              <Link as={NavLink}
+                    to={link.path}
+                    bg="gray.500" h="10%"
+                    width="10%"
+                    textAlign="center"
+                    p={2} fontWeight="bold"
+                    shadow={"lg"}
+                    _hover={{
+                      bg: 'gray.300',
+                    }}
+                    borderRadius={'5px'}
+                    exact activeClassName="active"
+                    mr={4}>
                 {link.name}
               </Link>
             );
@@ -61,7 +71,7 @@ function Navbar() {
               />
             </MenuButton>
             <MenuList>
-              <MenuItem bg="gray.500" color={'black'} size="lg"  as={NavLink} to="/profile">Profile</MenuItem>
+              <MenuItem bg="gray.500" color={'black'} as={NavLink} to="/profile">Profile</MenuItem>
               <MenuItem>
                 {(isAuthenticated ? (
                   <>
