@@ -23,13 +23,13 @@ const NAV_LINKS = [
 ]
 
 function Navbar() {
-  let isAuthenticated = false;
+  let isAuthenticated = true;
   //const {user, isAuthenticated, logout} = useAuth();
   return (
     <>
-      <Box bg="gray.400" px={4} py={3}>
+      <Box bg="gray.800" px={4} py={3}>
         <Flex alignItems="center">
-          <Heading as="h1" size="xl" fontWeight="extrabold">
+          <Heading color={"white"} as="h1" size="xl" fontWeight="extrabold">
             FinComm
           </Heading>
           <Spacer></Spacer>
@@ -40,13 +40,14 @@ function Navbar() {
             return (
               <Link as={NavLink}
                     to={link.path}
-                    bg="gray.500" h="10%"
+                    bg="gray.600" h="10%"
                     width="10%"
+                    color={"white"}
                     textAlign="center"
                     p={2} fontWeight="bold"
                     shadow={"lg"}
                     _hover={{
-                      bg: 'gray.300',
+                      bg: 'gray.500',
                     }}
                     borderRadius={'5px'}
                     exact activeClassName="active"
@@ -70,18 +71,18 @@ function Navbar() {
                 }
               />
             </MenuButton>
-            <MenuList>
-              <MenuItem bg="gray.500" color={'black'} as={NavLink} to="/profile">Profile</MenuItem>
-              <MenuItem>
+            <MenuList bg="gray.500">
                 {(isAuthenticated ? (
                   <>
-                    (//Logout)
+                    <MenuItem bg="gray.500" color={'black'} as={NavLink} to="/profile">Profile</MenuItem>
+                    <MenuItem bg="gray.500" color={'black'} > Logout </MenuItem>
                   </>
                 ) : (
-                  <Login />
+                  <MenuItem borderRadius={'5px'} bg="gray.500" color={'black'}>
+                    <Login />
+                  </MenuItem>
                 ))
               }
-              </MenuItem>
             </MenuList>
           </Menu>
         </Flex>

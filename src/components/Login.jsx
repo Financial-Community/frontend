@@ -29,7 +29,7 @@ function Login() {
 
   return (
     <>
-      <MenuItem bg="gray.500" color={'black'} size="lg" onClick={onOpen}>
+      <MenuItem bg="gray.500" color={'black'} onClick={onOpen}>
         Login
       </MenuItem>
       <Modal isOpen={isOpen} onClose={onClose} isCentered>
@@ -43,6 +43,7 @@ function Login() {
                 <FormControl id="email">
                   <FormLabel>Email address</FormLabel>
                   <Input
+                    bg={"white"}
                     border={'1px solid '}
                     borderColor={'#554739'}
                     {...register('username', { required: 'This field is required.' })}
@@ -52,10 +53,11 @@ function Login() {
                 <FormControl id="password">
                   <FormLabel>Password</FormLabel>
                   <Input
-                  border={'1px solid '}
-                  borderColor={'#554739'}
-                  {...register('password', { required: 'This field is required.' })}
-                  type={'password'}
+                    bg={"white"}
+                    border={'1px solid '}
+                    borderColor={'#554739'}
+                    {...register('password', { required: 'This field is required.' })}
+                    type={'password'}
                 />
                 </FormControl>
 
