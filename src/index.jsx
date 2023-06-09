@@ -15,7 +15,7 @@ const theme = extendTheme({
     global: {
       "html, body": {
         height: "100vh",
-        backgroundColor: "gray.300",
+        backgroundColor: "gray.700",
       },
     },
   },
