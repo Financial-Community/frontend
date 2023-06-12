@@ -22,7 +22,7 @@ function Item({ textColor, headerText, bodyText, image, reverse = false }) {
         </Text>
       </Flex>
       <Spacer />
-      <Image src={image} height="100%" p={1} />
+      <Image src={image} height="100%" p={1} borderRadius={"10px"}/>
     </Flex>
   );
 }
@@ -51,6 +51,13 @@ function HomePage() {
           headerText={'Connect with people!'}
           bodyText={'Learn for eachother!'}
           image={logo}
+        />
+        <Item
+          textColor={'white'}
+          headerText={'Connect with people!'}
+          bodyText={'Learn for eachother!'}
+          image={logo}
+          reverse={true}
         />
       </Container>
     </>

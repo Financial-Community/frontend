@@ -1,13 +1,29 @@
 import React from 'react';
 import Navbar from "../components/Navbar";
+import {Box, Text} from "@chakra-ui/react";
 
 function Dashboard() {
   return (
-    <div>
+    <>
 
       <Navbar></Navbar>
-      <h1>Dashboard</h1>
-    </div>
+      <Box
+        p={4}
+        m={3}
+        borderRadius={'10px'}
+        boxShadow={'rgba(0, 0, 0, 0.35) 0px 5px 15px'}
+        fontSize={"19px"} textAlign={"center"} color={"white"}>
+        <Text fontSize={"22px"} >TreeMap Block</Text>
+      </Box>
+      <Box
+        p={4}
+        m={3}
+        borderRadius={'10px'}
+        boxShadow={'rgba(0, 0, 0, 0.35) 0px 5px 15px'}
+        fontSize={"19px"} textAlign={"center"} color={"white"}>
+        <Text fontSize={"22px"} >News Block</Text>
+      </Box>
+    </>
   );
 }
 
