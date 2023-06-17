@@ -13,18 +13,17 @@ import {
 } from '@chakra-ui/react';
 import {NavLink} from 'react-router-dom';
 import Login from "./Login";
-//import {useAuth} from "../services/Auth";
+import {useAuth} from "../context/AuthContext";
 
 const NAV_LINKS = [
   {name: 'Home', path: '/', needsAuth: false},
-  {name: 'Dashboard', path: '/dashboard', needsAuth: false},
-  {name: 'Social', path: '/social', needsAuth: false},
+  {name: 'Dashboard', path: '/dashboard', needsAuth: true},
+  {name: 'Social', path: '/social', needsAuth: true},
 
 ]
 
 function Navbar() {
-  let isAuthenticated = true;
-  //const {user, isAuthenticated, logout} = useAuth();
+  const {isAuthenticated, logout} = useAuth();//  const {user, isAuthenticated, logout} = useAuth();
   return (
     <>
       <Box bg="gray.800" px={4} py={3}>
@@ -39,6 +38,7 @@ function Navbar() {
             }
             return (
               <Link as={NavLink}
+                    id={link.name}
                     to={link.path}
                     bg="gray.600" h="10%"
                     width="10%"
@@ -72,16 +72,18 @@ function Navbar() {
               />
             </MenuButton>
             <MenuList bg="gray.500">
-                {(isAuthenticated ? (
-                  <>
-                    <MenuItem bg="gray.500" color={'black'} as={NavLink} to="/profile">Profile</MenuItem>
-                    <MenuItem bg="gray.500" color={'black'} > Logout </MenuItem>
-                  </>
-                ) : (
-                  <MenuItem borderRadius={'5px'} bg="gray.500" color={'black'}>
-                    <Login />
-                  </MenuItem>
-                ))
+              {(isAuthenticated ? (
+                <>
+                  <MenuItem bg="gray.500" color={'black'} as={NavLink} to="/profile">Profile</MenuItem>
+                  <MenuItem bg="gray.500" color={'black'} as={NavLink} to="/" onClick={() => {
+                    logout()
+                  }}> Logout </MenuItem>
+                </>
+              ) : (
+                <MenuItem borderRadius={'5px'} bg="gray.500" color={'black'}>
+                  <Login/>
+                </MenuItem>
+              ))
               }
             </MenuList>
           </Menu>

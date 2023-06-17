@@ -1,41 +1,31 @@
-import {
-  createContext,
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-} from 'react';
+// AuthContext.js
+
+import React, {createContext, useContext, useEffect, useMemo, useState} from 'react';
+import {auth} from '../config/FirebaseConfig';
+import {login, logout, signUp, resetPassword} from "../services/AuthService";
 
 const AuthContext = createContext();
 
-export function AuthProvider({ children }) {
-  const [user, setUser] = useState({
-    token: null,
-  });
-
-  const isAuthenticated = !!user?.token ?? false;
+export const AuthProvider = ({ children }) => {
+  const [currentUser, setCurrentUser] = useState(null);
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      setUser({ token });
-    }
+    return auth.onAuthStateChanged(user => {
+      setCurrentUser(user);
+    });
   }, []);
-
-  const setLogin = useCallback((token) => {
-    localStorage.setItem('token', token);
-    setUser((prev) => ({ ...prev, token }));
-  }, []);
-
-  const logout = () => {
-    localStorage.removeItem('token');
-    setUser(null);
-  };
+  console.log(currentUser);
+  const isAuthenticated = currentUser ?? false;
 
   const value = useMemo(() => {
-    return { user, setLogin, logout, isAuthenticated };
-  }, [setLogin, user, isAuthenticated]);
+    return {     currentUser,
+      signUp,
+      login,
+      logout,
+      resetPassword,
+      isAuthenticated
+    };
+  }, [currentUser, isAuthenticated]);
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
