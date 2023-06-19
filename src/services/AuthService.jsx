@@ -1,20 +1,32 @@
 // AuthService.js
 
 import { auth } from '../config/FirebaseConfig';
+import firebase from "firebase/compat/app";
+
+const provider = new firebase.auth.GoogleAuthProvider();
 
 // Sign up with email and password
-export const signUp = async (email, password) => {
+export const signUpWithEmail = async (email, password) => {
   try {
     const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+    console.log(userCredential.user)
     return userCredential.user;
   } catch (error) {
     throw new Error(error.message);
   }
 };
 
+export const loginWithGooglePopup = async () => {
+  try {
+    const userCredential = await auth.signInWithPopup(provider);
+    return userCredential.user;
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
 
 // Login with email and password
-export const login = async (email, password) => {
+export const loginWithEmail = async (email, password) => {
   try {
     const userCredential = await auth.signInWithEmailAndPassword(email, password);
     return userCredential.user;
@@ -52,32 +64,3 @@ export const updateProfile = async (displayName) => {
     throw new Error(error.message);
   }
 };
-
-/*
-import firebase from "firebase/compat";
-
-<script src="https://www.gstatic.com/firebasejs/8.0/firebase.js"></script>
-<script>
-  var config = {
-};
-  firebase.initializeApp(config);
-</script>
-<script>
-  var email = "lukaskahl2001@gmail.com";
-  var password = "password";
-
-  firebase.auth().onAuthStateChanged(function(user) {
-  if (user) {
-  document.getElementById("message").innerHTML = "Welcome, " + user.email;
-} else {
-  document.getElementById("message").innerHTML = "No user signed in.";
-}
-});
-
-  .catch(function(error) {
-  document.getElementById("message").innerHTML = error.message;
-});
-</script>
- */
-
-// AuthService.js can include additional methods for managing user-related operations like updating email, changing password, etc.

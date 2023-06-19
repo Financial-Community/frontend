@@ -1,8 +1,6 @@
-// AuthContext.js
-
 import React, {createContext, useContext, useEffect, useMemo, useState} from 'react';
 import {auth} from '../config/FirebaseConfig';
-import {login, logout, signUp, resetPassword} from "../services/AuthService";
+import {loginWithEmail, logout, signUpWithEmail, resetPassword} from "../services/AuthService";
 
 const AuthContext = createContext();
 
@@ -14,13 +12,16 @@ export const AuthProvider = ({ children }) => {
       setCurrentUser(user);
     });
   }, []);
-  console.log(currentUser);
+
+
   const isAuthenticated = currentUser ?? false;
 
   const value = useMemo(() => {
-    return {     currentUser,
-      signUp,
-      login,
+    return {
+      currentUser,
+      setCurrentUser,
+      signUpWithEmail,
+      loginWithEmail,
       logout,
       resetPassword,
       isAuthenticated

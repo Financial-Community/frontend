@@ -5,7 +5,6 @@ import {Box, Text} from "@chakra-ui/react";
 function Dashboard() {
   return (
     <>
-
       <Navbar></Navbar>
       <Box
         p={4}

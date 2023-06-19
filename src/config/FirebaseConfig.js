@@ -1,12 +1,13 @@
-// FirebaseConfig.js
-
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 
+const apikey = process.env.REACT_APP_API_KEY
+
 const firebaseConfig = {
-  apiKey: "AIzaSyCfQCR_mBetTQmCbeEk8_wf5COv_VSSzUY",
+  apiKey: apikey,
   authDomain: "lukas-project-384306.firebaseapp.com",
 };
+console.log(process.env.API_KEY)
 
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);

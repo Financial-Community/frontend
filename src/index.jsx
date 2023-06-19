@@ -1,13 +1,14 @@
-import * as React from "react";
+import React from "react";
 import ReactDOM from 'react-dom/client';
-import HomePage from "./pages/HomePage";
-import {createBrowserRouter, RouterProvider} from "react-router-dom";
-import Dashboard from "./pages/Dashboard";
-import Social from "./pages/Social";
 import {ChakraProvider} from "@chakra-ui/react";
-import Profile from "./pages/Profile";
 import {extendTheme} from "@chakra-ui/react";
 import {AuthProvider} from "./context/AuthContext";
+import {GoogleOAuthProvider} from "@react-oauth/google";
+import HomePage from "./pages/HomePage";
+import Dashboard from "./pages/Dashboard";
+import Social from "./pages/Social";
+import {createBrowserRouter, RouterProvider} from "react-router-dom";
+import Profile from "./pages/Profile";
 
 const theme = extendTheme({
 
@@ -24,35 +25,39 @@ const theme = extendTheme({
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <HomePage />,
+    element: <HomePage/>,
     loader: HomePage,
   },
   {
     path: "/Dashboard",
-    element: <Dashboard />,
+    element: <Dashboard/>,
     loader: Dashboard,
   },
   {
     path: "/Social",
-    element: <Social />,
+    element: <Social/>,
     loader: Social,
   },
   {
     path: "/Profile",
-    element: <Profile />,
+    element: <Profile/>,
     loader: Profile,
   },
 ]);
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
-  <React.StrictMode>
-    <AuthProvider>
-      <ChakraProvider theme={theme}>
-        <RouterProvider router={router} />
-      </ChakraProvider>
-    </AuthProvider>
-  </React.StrictMode>
-  );
+
+const rootElement = document.getElementById('root');
+
+ReactDOM.createRoot(rootElement).render(
+  <GoogleOAuthProvider clientId={process.env.REACT_APP_CLIENT_ID}>
+    <React.StrictMode>
+      <AuthProvider>
+        <ChakraProvider theme={theme}>
+          <RouterProvider router={router}/>
+        </ChakraProvider>
+      </AuthProvider>
+    </React.StrictMode>
+  </GoogleOAuthProvider>
+);
 
 

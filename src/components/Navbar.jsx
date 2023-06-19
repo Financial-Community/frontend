@@ -37,21 +37,24 @@ function Navbar() {
               return null;
             }
             return (
-              <Link as={NavLink}
-                    id={link.name}
-                    to={link.path}
-                    bg="gray.600" h="10%"
-                    width="10%"
-                    color={"white"}
-                    textAlign="center"
-                    p={2} fontWeight="bold"
-                    shadow={"lg"}
-                    _hover={{
-                      bg: 'gray.500',
-                    }}
-                    borderRadius={'5px'}
-                    exact activeClassName="active"
-                    mr={4}>
+              <Link
+                as={NavLink}
+                id={link.name}
+                to={link.path}
+                bg="gray.600"
+                h="10%"
+                width="10%"
+                color="white"
+                textAlign="center"
+                p={2}
+                fontWeight="bold"
+                shadow="lg"
+                _hover={{bg: 'gray.500'}}
+                borderRadius="5px"
+                exact
+                activeClassName="active"
+                mr={4}
+              >
                 {link.name}
               </Link>
             );
