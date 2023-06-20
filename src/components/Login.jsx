@@ -17,10 +17,13 @@ import {
   useDisclosure
 } from "@chakra-ui/react";
 import {useForm} from 'react-hook-form';
-import {loginWithEmail, loginWithGooglePopup, signUpWithEmail} from "../services/AuthService";
+import { useLoginWithMail, useSignUpWithEmail} from "../context/AuthContext";
 
 
 function Login() {
+  const { loginWithMail, loginWithGooglePopup} = useLoginWithMail();
+  const { signUpWithEmail } = useSignUpWithEmail();
+
   const {
     register,
     handleSubmit,
@@ -35,12 +38,13 @@ function Login() {
 
   const {isOpen, onOpen, onClose} = useDisclosure();
 
-  const handleLoginEmail = async (data) => {
+  async function handleLoginEmail(data) {
     try {
-      await loginWithEmail(data.username, data.password);
+      await loginWithMail({email: data.email, password: data.password})
+      reset();
       onClose();
     } catch (error) {
-      setError("username", {
+      setError("email", {
         type: 'serverError',
         message: 'Username or Password is incorrect',
       });
@@ -49,20 +53,20 @@ function Login() {
         message: 'Username or Password is incorrect',
       });
     }
-  };
 
-  const handleLoginPopup = async () => {
+  }
+
+  async function handleLoginPopup() {
     try {
-      await loginWithGooglePopup();
+      await loginWithGooglePopup()
     } catch (error) {
-      console.log(error)
+      throw new Error(error.message)
     }
   }
 
-
   const handleRegister = handleSubmit(async (data) => {
     try {
-      await signUpWithEmail(data.username, data.password);
+      await signUpWithEmail(data.email, data.password);
       onClose();
     } catch (error) {
       if (error.message.includes('password')) {
@@ -71,7 +75,7 @@ function Login() {
           message: error.message,
         });
       } else {
-        setError("username", {
+        setError("email", {
           type: 'serverError',
           message: error.message,
         });
@@ -86,22 +90,22 @@ function Login() {
       </MenuItem>
       <Modal isOpen={isOpen} onClose={onClose} isCentered>
         <ModalOverlay/>
-        <ModalContent backgroundColor={"gray.500"}>
+        <ModalContent backgroundColor={"gray.600"}>
           <ModalHeader>Sign In</ModalHeader>
           <ModalCloseButton/>
           <form onSubmit={handleSubmit(handleLoginEmail)}>
             <ModalBody>
               <Flex flexDirection="column" gap={5}>
-                <FormControl isInvalid={errors.username}>
+                <FormControl isInvalid={errors.email}>
                   <FormLabel>Email address</FormLabel>
                   <Input
                     bg={"white"}
                     border={'1px solid '}
                     borderColor={'#554739'}
-                    {...register('username', {required: 'This field is required.'})}
+                    {...register('email', {required: 'This field is required.'})}
                     type={'text'}
                   />
-                  <FormErrorMessage>{errors.username && errors.username.message}</FormErrorMessage>
+                  <FormErrorMessage>{errors.email && errors.email.message}</FormErrorMessage>
                 </FormControl>
                 <FormControl isInvalid={errors.password}>
                   <FormLabel>Password</FormLabel>
@@ -119,7 +123,7 @@ function Login() {
                 size={['xs', 'sm']}
                 onClick={handleLoginPopup}
                 colorScheme="blue"
-                mr={3}
+                mt={3}
               >
                 Login with Google
               </Button>

@@ -1,5 +1,4 @@
 import React from 'react';
-import Navbar from "../components/Navbar";
 import {Box, Text} from "@chakra-ui/react";
 import {SearchBar} from "../components/SearchBar";
 
@@ -12,7 +11,6 @@ function Social() {
 
   return (
     <>
-      <Navbar></Navbar>
       <Box
         p={4}
         pl={20}

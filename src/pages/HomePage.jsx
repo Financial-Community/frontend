@@ -1,7 +1,7 @@
 import React from 'react';
-import Navbar from "../components/Navbar";
 import {Box, Container, Flex, Image, Spacer, Text} from "@chakra-ui/react";
 import logo from '../assets/logo-black.png'
+import Navbar from "../components/Navbar";
 
 function Item({ textColor, headerText, bodyText, image, reverse = false }) {
   return (
@@ -30,7 +30,7 @@ function Item({ textColor, headerText, bodyText, image, reverse = false }) {
 function HomePage() {
   return (
     <>
-      <Navbar></Navbar>
+      <Navbar/>
       <Container maxW="container.xl"
                  minH={'100vh'}
                  maxH={'100vh'}>

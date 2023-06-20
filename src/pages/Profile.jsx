@@ -1,11 +1,9 @@
 import React from 'react';
-import Navbar from "../components/Navbar";
 import {Box, Text} from "@chakra-ui/react";
 
 function Profile() {
   return (
     <div>
-      <Navbar></Navbar>
       <Box
         p={4}
         pl={20}
