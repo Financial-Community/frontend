@@ -21,7 +21,7 @@ import { useLoginWithMail, useSignUpWithEmail} from "../context/AuthContext";
 
 
 function Login() {
-  const { loginWithMail, loginWithGooglePopup} = useLoginWithMail();
+  const { loginWithMail, loginWithGooglePopup, isLoading} = useLoginWithMail();
   const { signUpWithEmail } = useSignUpWithEmail();
 
   const {
@@ -134,6 +134,7 @@ function Login() {
                   size={['xs', 'sm']}
                   type="submit"
                   colorScheme="blue"
+                  isLoading={isLoading}
                   mr={3}
                 >
                   Sign in
@@ -142,6 +143,7 @@ function Login() {
                 <Button
                   size={['xs', 'sm']}
                   onClick={handleRegister}
+                  isLoading={isLoading}
                   colorScheme="blue"
                   mr={3}
                 >

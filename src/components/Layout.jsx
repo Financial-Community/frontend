@@ -10,10 +10,11 @@ export default function Layout(){
   const { user, isLoading} = useAuth();
 
   useEffect(() => {
-    if(pathname.startsWith("/protected") && !user){
+
+    if(!isLoading && pathname.startsWith("/protected") && !user){
       navigate(ROOT);
     }
-  }, [navigate, pathname  , user]);
+  }, [pathname, isLoading, user, navigate]);
 
   if(isLoading) return "Loading...";
 

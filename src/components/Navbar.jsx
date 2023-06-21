@@ -23,10 +23,9 @@ const NAV_LINKS = [
 ]
 
 function Navbar() {
-  const {user} = useAuth();//  const {user, isAuthenticated, logout} = useAuth();
+  const {user, authUser} = useAuth();//  const {user, isAuthenticated, logout} = useAuth();
   const {logout} = useLogout();
 
-  console.log("auth " + user);
   return (
     <>
       <Box bg="gray.800" px={4} py={3}>
@@ -36,7 +35,7 @@ function Navbar() {
           </Heading>
           <Spacer></Spacer>
           {NAV_LINKS.map((link) => {
-            if (link.needsAuth && !user) {
+            if (link.needsAuth && !authUser) {
               return null;
             }
             return (
@@ -71,14 +70,14 @@ function Navbar() {
               cursor={'pointer'}
               minW={0}>
               <Avatar
-                size={'sm'}
-                src={
-                  'https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Question_mark_%28black%29.svg/800px-Question_mark_%28black%29.svg.png'
-                }
+                size={'lg'}
+                name={user?.username}
+                src={user?.avatar}
+                _hover={{cursor: 'pointer', opacity: '0.8'}}
               />
             </MenuButton>
             <MenuList bg="gray.600">
-              {(user ? (
+              {(authUser ? (
                 <>
                   <MenuItem bg="gray.600" color={'black'} as={NavLink} to="/protected/profile">Profile</MenuItem>
                   <MenuItem bg="gray.600" color={'black'} as={NavLink} to="/" onClick={() => {

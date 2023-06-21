@@ -1,19 +1,40 @@
-import {auth} from '../config/FirebaseConfig';
+import {auth, db} from '../config/FirebaseConfig';
 import {useAuthState, useSignOut} from "react-firebase-hooks/auth";
 import firebase from "firebase/compat/app";
+import {doc, setDoc, getDoc} from "firebase/firestore";
 import HomePage from "../pages/HomePage";
 import {useToast} from "@chakra-ui/react";
 import {useNavigate} from "react-router-dom";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {ROOT} from "../routes";
 
 
 const provider = new firebase.auth.GoogleAuthProvider();
 
 export function useAuth() {
-  const [authUser , isLoading, error] = useAuthState(auth);
+  const [authUser , authLoading, error] = useAuthState(auth);
+  const [isLoading, setLoading] = useState(true);
+  const [user, setUser] = useState(null);
 
-  return { user: authUser, isLoading, error };
+  useEffect(() => {
+    console.log(isLoading);
+    async function fetchData(){
+      const ref = doc(db, "users", authUser.uid);
+      const docSnap = await getDoc(ref);
+      setUser(docSnap.data());
+      setLoading(false);
+    }
+    if(!authLoading){
+      if(authUser) {
+        fetchData();
+      }else {
+        setLoading(false);
+      }
+    }
+
+  },[authLoading, authUser, isLoading]);
+
+  return {authUser, user , isLoading, error };
 }
 
 export function useLoginWithMail(){
@@ -30,7 +51,7 @@ export function useLoginWithMail(){
         title: "You are logged in!",
         status: "success",
         isClosable: true,
-        position: "top",
+        position: "bottom-right",
         duration: 3000,
       });
       navigate(redirectTo)
@@ -40,7 +61,7 @@ export function useLoginWithMail(){
         status: "error",
         description: error.message,
         isClosable: true,
-        position: "top",
+        position: "bottom-right",
         duration: 3000,
       });
       setLoading(false);
@@ -54,12 +75,22 @@ export function useLoginWithMail(){
   async function loginWithGooglePopup() {
     setLoading(true);
     try {
-      await auth.signInWithPopup(provider);
+      const res = await auth.signInWithPopup(provider);
+      const userDoc = await  getDoc(doc(db , "users", res.user.uid))
+      if(!userDoc.exists()){
+        await  setDoc(doc(db , "users", res.user.uid), {
+          id: res.user.uid,
+          username: res.user.displayName,
+          avatar: res.user.photoURL,
+          following: [],
+          date: Date.now(),
+        })
+      }
       toast({
         title: "You are logged in!",
         status: "success",
         isClosable: true,
-        position: "top",
+        position: "bottom-right",
         duration: 3000,
       });
       navigate("/")
@@ -69,7 +100,7 @@ export function useLoginWithMail(){
         status: "error",
         description: error.message,
         isClosable: true,
-        position: "top",
+        position: "bottom-right",
         duration: 3000,
       });
       setLoading(false);
@@ -79,17 +110,43 @@ export function useLoginWithMail(){
   return {isLoading, loginWithMail, loginWithGooglePopup};
 }
 
-
 export function useSignUpWithEmail() {
 
   const [isLoading, setLoading] = useState(false);
+  const toast = useToast();
 
   async function signUpWithEmail(email, password) {
     setLoading(true);
     try {
-      await auth.createUserWithEmailAndPassword(email, password);
+      const res = await auth.createUserWithEmailAndPassword(email, password);
+      await  setDoc(doc(db , "users", res.user.uid), {
+        id: res.user.uid,
+        username: email.split("@")[0],
+        avatar: "",
+        following: [],
+        date: Date.now(),
+      })
+      toast({
+        title: "Account created.",
+        description: "You are now logged in.",
+        status: "success",
+        isClosable: true,
+        position: "bottom-right",
+        duration: 3000,
+      });
     } catch (error) {
+      console.log(error);
+      toast({
+        title: "Account creation failed.",
+        description: error.message,
+        status: "error",
+        isClosable: true,
+        position: "bottom-right",
+        duration: 3000,
+      });
       throw new Error(error.message);
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -107,7 +164,7 @@ export function useLogout() {
         title: "Successfully logged out",
         status: "success",
         isClosable: true,
-        position: "top",
+        position: "bottom-right",
         duration: 3000,
       });
       navigate(ROOT);
@@ -116,3 +173,5 @@ export function useLogout() {
 
   return { logout, isLoading };
 }
+
+
