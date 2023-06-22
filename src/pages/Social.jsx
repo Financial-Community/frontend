@@ -1,8 +1,9 @@
 import React, {useEffect, useState} from 'react';
-import { Box, HStack, Text, VStack} from "@chakra-ui/react";
+import {Box, Heading, HStack, VStack} from "@chakra-ui/react";
 import {SearchBar} from "../components/SearchBar";
 import {getAllUsers} from "../context/UserContext";
 import {UserProfileModal} from "../components/UserProfile";
+import {Post} from "../components/Content/Post";
 
 function Content(data) {
 
@@ -37,6 +38,22 @@ function DisplayUserAvatar() {
 function Social() {
   const {data: posts} = true;
 
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const usersData = await getAllUsers();
+      setUsers(usersData);
+    };
+    fetchData();
+  }, []);
+
+  const [searchResults, setSearchResults] = useState([]);
+
+  const handleSearch = filteredUsers => {
+    setSearchResults(filteredUsers);
+  };
+
   return (
     <>
       <Box
@@ -48,8 +65,15 @@ function Social() {
         boxShadow={'rgba(0, 0, 0, 0.35) 0px 5px 15px'}
         fontSize={"19px"} textAlign={"center"} color={"white"}>
 
-        <Text fontSize={"22px"}>Benutzer Suche</Text>
-        <SearchBar/>
+        <Heading>Benutzer Suche</Heading>
+        <SearchBar users={users} onSearch={handleSearch} />
+        <HStack >
+          {searchResults.map(user => (
+            <Box m={2}>
+              <UserProfileModal user={user.data()}/>
+            </Box>
+          ))}
+        </HStack>
         <Content posts={posts}/>
       </Box>
       <Box
@@ -61,7 +85,7 @@ function Social() {
         boxShadow={'rgba(0, 0, 0, 0.35) 0px 5px 15px'}
         fontSize={"19px"} textAlign={"center"} color={"white"}>
 
-        <Text fontSize={"22px"}>Benutzer Vorschläge</Text>
+        <Heading >Benutzer Vorschläge</Heading>
         {DisplayUserAvatar()}
       </Box>
       <Box
@@ -72,10 +96,7 @@ function Social() {
         borderRadius={'10px'}
         boxShadow={'rgba(0, 0, 0, 0.35) 0px 5px 15px'}
         fontSize={"19px"} textAlign={"center"} color={"white"}>
-
-        <Text textAlign={"left"}>UserName, clickable with link to profile</Text>
-        <Text>if image image here</Text>
-        <Text>text here</Text>
+        <Post/>
 
       </Box>
     </>

@@ -1,19 +1,25 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {Box, Button, Heading, Input, Text} from "@chakra-ui/react";
 import {useAuth} from "../context/AuthContext";
 import {useChangeUsername} from "../context/UserContext";
+import {CreatePost} from "../components/Content/CreatePost";
+import {useForm} from "react-hook-form";
+import {AddStocks} from "../components/Stocks/AddStocks";
+import {DeleteStock} from "../components/Stocks/DeleteStock";
+import {EditStock} from "../components/Stocks/EditStock";
+
+
 
 function Profile() {
   const {changeUsername} = useChangeUsername();
   const {user} = useAuth();
-  const [name, setName] = useState("");
+  const {register, handleSubmit, reset} = useForm();
 
-  async function handleChangeUsername(){
-    await changeUsername( user.id ,name);
+  async function handleChangeUsername(data) {
+    await changeUsername(user.id, data?.name);
+    reset();
   }
-  const handleUserName = event => {
-    setName(event.target.value);
-  };
+
 
   return (
     <div>
@@ -24,9 +30,14 @@ function Profile() {
         m={3}
         borderRadius={'10px'}
         boxShadow={'rgba(0, 0, 0, 0.35) 0px 5px 15px'}
-        fontSize={"19px"} textAlign={"center"} color={"white"}>
+        fontSize={"19px"} color={"white"}>
 
-        <Text fontSize={"22"} >Depot-Verwaltung</Text>
+        <Heading textAlign={"center"}>Depot-Verwaltung</Heading>
+        <AddStocks/>
+        {'    '}
+        <DeleteStock/>
+        {'    '}
+        <EditStock/>
       </Box>
       <Box
         p={4}
@@ -35,9 +46,10 @@ function Profile() {
         m={3}
         borderRadius={'10px'}
         boxShadow={'rgba(0, 0, 0, 0.35) 0px 5px 15px'}
-        fontSize={"19px"} textAlign={"center"} color={"white"}>
+        fontSize={"19px"} color={"white"}>
 
-        <Text fontSize={"22"} >Content-Verwaltung</Text>
+        <Heading textAlign={"center"}>Content-Verwaltung</Heading>
+        <CreatePost/>
       </Box>
       <Box
         p={4}
@@ -46,11 +58,20 @@ function Profile() {
         m={3}
         borderRadius={'10px'}
         boxShadow={'rgba(0, 0, 0, 0.35) 0px 5px 15px'}
-        fontSize={"19px"} textAlign={"center"} color={"white"}>
-        <Heading >Profil-Verwaltung</Heading>
-
-        <Input onChange={handleUserName} id="name" name="name" value={name} placeholder={"Username"} size={"ml"} maxWidth={200}/> {" "}
-        <Button onClick={handleChangeUsername}>Change Username</Button>
+        fontSize={"19px"} color={"white"}>
+        <Heading textAlign={"center"}>Profil-Verwaltung</Heading>
+        <Text fontSize={"22"}>Username: {user?.username}</Text>
+        <form onSubmit={handleSubmit(handleChangeUsername)}>
+          <Input
+            id="name"
+            name="name"
+            placeholder={"Username"}
+            size={"ml"}
+            maxWidth={200}
+            {...register("name")}
+          /> {" "}
+          <Button type={"submit"}>Change Username</Button>
+        </form>
       </Box>
     </div>
   );

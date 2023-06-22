@@ -44,7 +44,6 @@ export function UserProfileModal({user: currentUser}) {
   return (
     <>
       <Box
-        w="100%"
         textAlign="center"
         key={currentUser.name}
       >
