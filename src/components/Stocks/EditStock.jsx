@@ -22,10 +22,8 @@ export function EditStock(){
   function useEditStock(data) {
     console.log(user.id, data.stockTicker, data.amountCurrent);
     axios.put(`https://depot-ij6sqfx7va-uc.a.run.app/depot/?amountCurrent=${data.amountCurrent}`, {
-      data: {
         "userId": user.id,
         "stockTicker": data.stockTicker,
-      }
     }).then((response) => {
       console.log(response);
       toast({

@@ -41,6 +41,7 @@ function Navbar() {
             return (
               <Link
                 as={NavLink}
+                key={link.name}
                 id={link.name}
                 to={link.path}
                 bg="gray.600"
@@ -52,9 +53,8 @@ function Navbar() {
                 fontWeight="bold"
                 shadow="lg"
                 _hover={{bg: 'gray.500'}}
+                _activeLink={{textDecoration: 'underline', bg: 'gray.500'}}
                 borderRadius="5px"
-                exact
-                activeClassName="active"
                 mr={4}
               >
                 {link.name}

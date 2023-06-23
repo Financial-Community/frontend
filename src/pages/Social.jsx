@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {Box, Heading, HStack, VStack} from "@chakra-ui/react";
-import {SearchBar} from "../components/SearchBar";
+import {SearchBar} from "../components/Content/SearchBar";
 import {getAllUsers} from "../context/UserContext";
 import {UserProfileModal} from "../components/UserProfile";
 import {Post} from "../components/Content/Post";

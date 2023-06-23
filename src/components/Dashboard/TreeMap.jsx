@@ -9,7 +9,7 @@ import {
 } from "@chakra-ui/react";
 import Chart from "react-apexcharts";
 import React, {useEffect, useState} from "react";
-import {useAuth} from "../context/AuthContext";
+import {useAuth} from "../../context/AuthContext";
 
 export function TreeMap() {
   const {isOpen, onOpen, onClose} = useDisclosure()
@@ -35,7 +35,6 @@ export function TreeMap() {
       const newvalue = [];
       const reqData = await fetch(`https://depot-ij6sqfx7va-uc.a.run.app/depot/${user?.id}`);
       const resData = await reqData.json();
-      console.log(resData);
       for (let i = 0; i < resData.length; i++) {
         newvalue.push({
           x: resData[i].stockTicker,
@@ -53,13 +52,9 @@ export function TreeMap() {
 
     if(tickerName === "") return;
     const getvaluedata = async () => {
-      console.log(tickerName);
       const url = `https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol=${tickerName}&apikey=${process.env.REACT_APP_AV_KEY}`;
-      console.log(url);
       const reqData = await fetch(url);
-      console.log(reqData);
       const resData = await reqData.json();
-      console.log(resData["Time Series (Daily)"]);
       for (const [key, value] of Object.entries(resData["Time Series (Daily)"])) {
         lineChartData.push({
           x: key,
@@ -86,13 +81,14 @@ export function TreeMap() {
             type: "area",
             events: {
               click: function (event, chartContext, config) {
-                onOpen();
-                let name =
-                  config.config.series[config.seriesIndex].data[
-                    config.dataPointIndex
-                    ];
-
-                setTickerName(name.x);
+                if(event.target.tagName === "rect"){
+                  let name =
+                    config.config.series[config.seriesIndex].data[
+                      config.dataPointIndex
+                      ];
+                  setTickerName(name.x);
+                  onOpen();
+                }
               },
             },
           },
@@ -102,7 +98,7 @@ export function TreeMap() {
       <Modal isOpen={isOpen} onClose={onClose} size={"6xl"}>
         <ModalOverlay/>
         <ModalContent backgroundColor={"gray.600"}>
-          <ModalHeader>Modal Title</ModalHeader>
+          <ModalHeader>{tickerName}</ModalHeader>
           <ModalCloseButton/>
           <ModalBody>
           </ModalBody>
