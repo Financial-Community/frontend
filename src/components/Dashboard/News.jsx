@@ -18,20 +18,22 @@ export function News({url, image, headline, text}) {
       display={'flex'}
       flexDirection={'column'}
       alignItems={'center'}
+      target="_blank"
+      rel="noopener noreferrer"
     >
       <Heading mb={3} fontSize={"25px"} textAlign={"center"}>{headline}</Heading>
       {
         image != null ? (
-        <Flex mt={3} mb={3} mr={5} flexDir={"row"} align={"center"} ml={"auto"}>
-          <Image m={"auto"} src={image} maxH={"300px"} maxW={"50%"}/>
-          <Text m={3} fontSize={"16px"} w={"50%"}>{text}</Text>
-        </Flex>
+          <Flex mt={3} mb={3} mr={5} flexDir={"row"} align={"center"} ml={"auto"}>
+            <Image m={"auto"} src={image} maxH={"300px"} maxW={"50%"}/>
+            <Text m={3} fontSize={"16px"} w={"50%"}>{text}</Text>
+          </Flex>
         ) : (
           <Text fontSize={"16px"} align={"center"} mt={"5%"}>{text}</Text>
         )
-    }
-</Box>
-)
+      }
+    </Box>
+  )
 }
 
 /*

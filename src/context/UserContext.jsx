@@ -1,7 +1,7 @@
 import {useToast} from "@chakra-ui/react";
 import {useNavigate} from "react-router-dom";
 import usernameExists from "../services/usernameExists";
-import {collection, doc, getDocs, updateDoc, arrayUnion, arrayRemove } from "firebase/firestore";
+import {collection, doc, getDocs, getDoc, updateDoc, arrayUnion, arrayRemove} from "firebase/firestore";
 import {db} from "../config/FirebaseConfig";
 import {PROFILE} from "../routes";
 
@@ -12,9 +12,22 @@ export const getAllUsers = async () => {
   return docSnap.docs;
 }
 
-export function useFollowingForUser () {
+
+export const getUser = async (userId) => {
+  const userRef = doc(db, "users", userId);
+  const userDoc = await getDoc(userRef);
+  if (userDoc.exists()) {
+    return userDoc.data();
+  } else {
+    console.log("No such document!");
+    return null;
+  }
+}
+
+export function useFollowingForUser() {
   const toast = useToast();
-  async function followUser (uid, userToFollow) {
+
+  async function followUser(uid, userToFollow) {
     try {
       await updateDoc(doc(db, "users", uid), {
         following: arrayUnion(userToFollow),
@@ -31,7 +44,7 @@ export function useFollowingForUser () {
     }
   }
 
-  async function unfollowUser (uid, userToUnfollow) {
+  async function unfollowUser(uid, userToUnfollow) {
     try {
       await updateDoc(doc(db, "users", uid), {
         following: arrayRemove(userToUnfollow),

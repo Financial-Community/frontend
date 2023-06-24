@@ -73,9 +73,7 @@ function Dashboard() {
       // fetch new data
       getNews();
     }
-
-
-  }, [news]);
+  }, []);
 
   return (
     <>

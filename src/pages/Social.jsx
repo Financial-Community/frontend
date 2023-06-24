@@ -4,6 +4,7 @@ import {SearchBar} from "../components/Content/SearchBar";
 import {getAllUsers} from "../context/UserContext";
 import {UserProfileModal} from "../components/UserProfile";
 import {Post} from "../components/Content/Post";
+import {useAuth} from "../context/AuthContext";
 
 function Content(data) {
 
@@ -35,8 +36,11 @@ function DisplayUserAvatar() {
   );
 }
 
+
+
 function Social() {
   const {data: posts} = true;
+  const {user} = useAuth();
 
   const [users, setUsers] = useState([]);
 
@@ -96,7 +100,7 @@ function Social() {
         borderRadius={'10px'}
         boxShadow={'rgba(0, 0, 0, 0.35) 0px 5px 15px'}
         fontSize={"19px"} textAlign={"center"} color={"white"}>
-        <Post/>
+        <Post users={["ndihnf-jfhf6bdj7d", "dnif8br-dnf-dhufb"]}/>
 
       </Box>
     </>
