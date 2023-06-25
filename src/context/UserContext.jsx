@@ -14,6 +14,7 @@ export const getAllUsers = async () => {
 
 
 export const getUser = async (userId) => {
+  console.log(userId)
   const userRef = doc(db, "users", userId);
   const userDoc = await getDoc(userRef);
   if (userDoc.exists()) {

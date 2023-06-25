@@ -7,12 +7,12 @@ import {useForm} from "react-hook-form";
 import {AddStocks} from "../components/Stocks/AddStocks";
 import {DeleteStock} from "../components/Stocks/DeleteStock";
 import {EditStock} from "../components/Stocks/EditStock";
-
+import {Post} from "../components/Content/Post";
 
 
 function Profile() {
   const {changeUsername} = useChangeUsername();
-  const {user} = useAuth();
+  const {user, isLoading} = useAuth();
   const {register, handleSubmit, reset} = useForm();
 
   async function handleChangeUsername(data) {
@@ -20,61 +20,64 @@ function Profile() {
     reset();
   }
 
+  if (!isLoading) {
+    console.log(user.id)
+    return (
+      <div>
+        <Box
+          p={4}
+          pl={20}
+          pr={20}
+          m={3}
+          borderRadius={'10px'}
+          boxShadow={'rgba(0, 0, 0, 0.35) 0px 5px 15px'}
+          fontSize={"19px"} color={"white"}>
 
-  return (
-    <div>
-      <Box
-        p={4}
-        pl={20}
-        pr={20}
-        m={3}
-        borderRadius={'10px'}
-        boxShadow={'rgba(0, 0, 0, 0.35) 0px 5px 15px'}
-        fontSize={"19px"} color={"white"}>
+          <Heading textAlign={"center"}>Depot-Verwaltung</Heading>
+          <AddStocks/>
+          {'    '}
+          <DeleteStock/>
+          {'    '}
+          <EditStock/>
+        </Box>
+        <Box
+          p={4}
+          pl={20}
+          pr={20}
+          m={3}
+          borderRadius={'10px'}
+          boxShadow={'rgba(0, 0, 0, 0.35) 0px 5px 15px'}
+          fontSize={"19px"} color={"white"}>
 
-        <Heading textAlign={"center"}>Depot-Verwaltung</Heading>
-        <AddStocks/>
-        {'    '}
-        <DeleteStock/>
-        {'    '}
-        <EditStock/>
-      </Box>
-      <Box
-        p={4}
-        pl={20}
-        pr={20}
-        m={3}
-        borderRadius={'10px'}
-        boxShadow={'rgba(0, 0, 0, 0.35) 0px 5px 15px'}
-        fontSize={"19px"} color={"white"}>
-
-        <Heading textAlign={"center"}>Content-Verwaltung</Heading>
-        <CreatePost/>
-      </Box>
-      <Box
-        p={4}
-        pl={20}
-        pr={20}
-        m={3}
-        borderRadius={'10px'}
-        boxShadow={'rgba(0, 0, 0, 0.35) 0px 5px 15px'}
-        fontSize={"19px"} color={"white"}>
-        <Heading textAlign={"center"}>Profil-Verwaltung</Heading>
-        <Text fontSize={"22"}>Username: {user?.username}</Text>
-        <form onSubmit={handleSubmit(handleChangeUsername)}>
-          <Input
-            id="name"
-            name="name"
-            placeholder={"Username"}
-            size={"ml"}
-            maxWidth={200}
-            {...register("name")}
-          /> {" "}
-          <Button type={"submit"}>Change Username</Button>
-        </form>
-      </Box>
-    </div>
-  );
+          <Heading textAlign={"center"}>Content-Verwaltung</Heading>
+          <CreatePost/>
+          {user.id && <Post userId={user.id} showProfile={false} deleteAble={true}/>}
+        </Box>
+        <Box
+          p={4}
+          pl={20}
+          pr={20}
+          m={3}
+          borderRadius={'10px'}
+          boxShadow={'rgba(0, 0, 0, 0.35) 0px 5px 15px'}
+          fontSize={"19px"} color={"white"}>
+          <Heading textAlign={"center"}>Profil-Verwaltung</Heading>
+          <Text fontSize={"22"}>Username: {user?.username}</Text>
+          <form onSubmit={handleSubmit(handleChangeUsername)}>
+            <Input
+              id="name"
+              name="name"
+              placeholder={"Username"}
+              size={"ml"}
+              maxWidth={200}
+              {...register("name")}
+            /> {" "}
+            <Button type={"submit"}>Change Username</Button>
+          </form>
+        </Box>
+      </div>
+    );
+  }
 }
 
 export default Profile;

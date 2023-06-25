@@ -11,6 +11,7 @@ import {
 } from "@chakra-ui/react";
 import {useAuth} from "../context/AuthContext";
 import {useFollowingForUser} from "../context/UserContext";
+import {Post} from "./Content/Post";
 
 export function UserProfileModal({user: currentUser}) {
   const {isOpen, onOpen, onClose} = useDisclosure();
@@ -50,7 +51,7 @@ export function UserProfileModal({user: currentUser}) {
         <Avatar name={currentUser.username} src={currentUser.avatar} onClick={onOpen} cursor="pointer"/>
         <Text>{currentUser.username}</Text>
       </Box>
-      <Modal isOpen={isOpen} onClose={onClose} size="xl">
+      <Modal isOpen={isOpen} onClose={onClose} size="3xl">
         <ModalOverlay/>
         <ModalContent>
           <ModalHeader>
@@ -63,7 +64,7 @@ export function UserProfileModal({user: currentUser}) {
             <Flex>
 
               <Box>
-                <Text>Hier könnte ihr content sein!</Text>
+                <Post userId={currentUser.id} showProfile={false}/>
               </Box>
             </Flex>
           </ModalBody>

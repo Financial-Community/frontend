@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Box, Heading, HStack, VStack} from "@chakra-ui/react";
+import {Box, Heading, HStack, VStack, Text} from "@chakra-ui/react";
 import {SearchBar} from "../components/Content/SearchBar";
 import {getAllUsers} from "../context/UserContext";
 import {UserProfileModal} from "../components/UserProfile";
@@ -25,17 +25,16 @@ function DisplayUserAvatar() {
   return (
     <Box overflowX="scroll" w="100%">
       <HStack spacing={4}>
-      {
-        users.map((user) => (
-          <VStack spacing={2}>
-            <UserProfileModal user={user.data()}/>
-          </VStack>
-      ))}
+        {
+          users.map((user) => (
+            <VStack spacing={2}>
+              <UserProfileModal user={user.data()}/>
+            </VStack>
+          ))}
       </HStack>
     </Box>
   );
 }
-
 
 
 function Social() {
@@ -57,6 +56,7 @@ function Social() {
   const handleSearch = filteredUsers => {
     setSearchResults(filteredUsers);
   };
+  console.log(user?.following)
 
   return (
     <>
@@ -70,8 +70,8 @@ function Social() {
         fontSize={"19px"} textAlign={"center"} color={"white"}>
 
         <Heading>Benutzer Suche</Heading>
-        <SearchBar users={users} onSearch={handleSearch} />
-        <HStack >
+        <SearchBar users={users} onSearch={handleSearch}/>
+        <HStack>
           {searchResults.map(user => (
             <Box m={2}>
               <UserProfileModal user={user.data()}/>
@@ -89,7 +89,7 @@ function Social() {
         boxShadow={'rgba(0, 0, 0, 0.35) 0px 5px 15px'}
         fontSize={"19px"} textAlign={"center"} color={"white"}>
 
-        <Heading >Benutzer Vorschläge</Heading>
+        <Heading>Benutzer Vorschläge</Heading>
         {DisplayUserAvatar()}
       </Box>
       <Box
@@ -99,8 +99,19 @@ function Social() {
         m={3}
         borderRadius={'10px'}
         boxShadow={'rgba(0, 0, 0, 0.35) 0px 5px 15px'}
-        fontSize={"19px"} textAlign={"center"} color={"white"}>
-        <Post users={["ndihnf-jfhf6bdj7d", "dnif8br-dnf-dhufb"]}/>
+        fontSize={"19px"} textAlign={"center"} color={"white"}
+        justifyContent={"center"}>
+        <Heading m={5}>Posts von Abonnierten Benutzern</Heading>
+
+        {
+          user?.following[0] !== null ?
+            user?.following.map((user) => (
+              <>
+                <Post userId={user} showProfile={true}/>
+              </>
+            )) :
+            <Text>Keine Posts vorhanden</Text>
+        }
 
       </Box>
     </>

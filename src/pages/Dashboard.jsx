@@ -54,13 +54,13 @@ function Dashboard() {
 
   useEffect(() => {
     const getNews = () => {
-      fetch(`https://www.alphavantage.co/query?function=NEWS_SENTIMENT&apikey=${process.env.REACT_APP_AV_KEY}`)
+      fetch(`https://news-ij6sqfx7va-uc.a.run.app/news/cache`)
         .then(response => {
           return response.json()
         })
         .then(data => {
           console.log("new Data")
-          cachedNewsData.current = data.feed
+          cachedNewsData.current = data.data
           setNews(cachedNewsData.current);
         })
     }
@@ -73,7 +73,7 @@ function Dashboard() {
       // fetch new data
       getNews();
     }
-  }, []);
+  }, [news]);
 
   return (
     <>
@@ -146,12 +146,12 @@ function Dashboard() {
         borderRadius={'10px'}
         boxShadow={'rgba(0, 0, 0, 0.35) 0px 5px 15px'}
         fontSize={"19px"} textAlign={"center"} color={"white"}>
-        <Heading>News Block</Heading>
+        <Heading m={5}>News Block</Heading>
         <SimpleGrid columns={[1, 2]} justifyItems={"center"} gap={3}>
           {
             news.map((n) => {
               return (
-                <News text={n.summary} image={n.banner_image} headline={n.title} url={n.url}/>
+                <News text={n.text} image={n.image} headline={n.headline} url={n.url}/>
               )
             })
           }

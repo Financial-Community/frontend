@@ -1,69 +1,104 @@
-import {Box, Flex, Image, Text} from "@chakra-ui/react";
+import {Box, Button, Flex, Image, Text} from "@chakra-ui/react";
 import React, {useEffect, useState} from "react";
 import {getUser} from "../../context/UserContext";
 import axios from "axios";
 import {UserProfileModal} from "../UserProfile";
 
 
-function Content({userId}) {
+export function Post(props) {
+  const {userId, showProfile, deleteAble = false} = props;
+  console.log(userId)
+
   const [user, setUser] = useState([]);
   const [post, setPost] = useState([]);
 
   useEffect(() => {
-    const fetchUserData = async () => {
-      const usersData = await getUser(userId);
-      console.log(usersData)
-      setUser(usersData);
+    const fetchData = async () => {
+      try {
+        if (showProfile) {
+          await getUser(userId)
+            .then((response) => {
+              console.log(response);
+              setUser(response);
+            }).catch((error) => {
+              console.log(error);
+            });
+        }
+        await axios.get(`https://content-ep7jv6cjka-ey.a.run.app/content?userId=${userId}`)
+          .then((response) => {
+            console.log(response.data.posts);
+            setPost(response.data.posts);
+          }).catch((error) => {
+            console.log(error);
+          });
+      } catch (error) {
+        console.error(error);
+      }
     };
 
-    //await axios.get(`https://content-ep7jv6cjka-ey.a.run.app/content?userId=${userId}`);
-    const fetchPostData = async () => {
-      const postData = fetch(`https://content-ep7jv6cjka-ey.a.run.app/content?userId=${userId}`)
-      setPost(postData.data);
-    }
+    fetchData();
+  }, [showProfile, userId]);
 
 
-    fetchUserData();
-    fetchPostData();
-  }, [userId]);
-
-  if (user.data !== undefined) {
-    return (
-      post.map((p) => (
-          <Box key={p.timeStamp}>
-            <UserProfileModal user={user?.data}/>
-            <Image src={p.gcsLink} alt={"post"} w={"100%"}/>
-            <Text>{p.caption}</Text>
-          </Box>
-        )
-      )
-    );
-  } else {
-    return <div>Loading...</div>;
+  function handleDeletePost(id) {
+    axios.delete(`https://content-ep7jv6cjka-ey.a.run.app/content`, {
+      data: {
+        "postId": id
+      }
+    }).then(r => {
+      console.log(r);
+      window.location.reload();
+    }).catch(e => {
+      console.log(e);
+      }
+    )
   }
-}
-
-export function Post({users}) {
 
   return (
-    <>
-      <Box
-        p={4}
-        m={3}
-        borderRadius={'10px'}
-        boxShadow={'rgba(0, 0, 0, 0.35) 0px 5px 15px'}
-        fontSize={"19px"} textAlign={"center"} color={"white"}>
-        <Flex>
-        </Flex>
-        {
-          users.map((user) => (
-            <Content user={user}/>
-          ))
-        }
+    post.map((p) => (
+        <Box key={p.timeStamp}
+             m={"auto"}
+             p={4}
+             mb={10}
+             height={"90%"}
+             w={"70%"}
+             border={'1px solid #e2e8f0'}
+             borderRadius={'10px'}
+             boxShadow={'rgba(0, 0, 0, 0.35) 0px 5px 15px'}
+             justifyContent={"center"}
+        >
+          {
+            showProfile ? (
+              <Flex ml={5} justifyContent={"start"}>
+              <UserProfileModal user={user}/>
+              </Flex>
+            ) : (
+              <></>
+            )
+          }
+          {
+            p.gcsLink ?
+              <Image m={"auto"} mt={3} mb={3} src={p.gcsLink} alt={"post"} maxW={"900px"} maxH={"90%"}/>
+              : <></>
+          }
 
-      </Box>
-    </>
-  )
+          <Text>{p.caption}</Text>
+          {
+            deleteAble ? (
+              <Button
+                m={2}
+                onClick={() => {
+                  handleDeletePost(p.postId);
+                }}
+              >Delete</Button>
+            ) : (
+              <></>
+            )
+          }
+        </Box>
+      )
+    )
+  );
 }
 
 //<UserProfileModal user={user.data}/>
