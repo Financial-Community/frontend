@@ -14,7 +14,6 @@ export const getAllUsers = async () => {
 
 
 export const getUser = async (userId) => {
-  console.log(userId)
   const userRef = doc(db, "users", userId);
   const userDoc = await getDoc(userRef);
   if (userDoc.exists()) {
@@ -80,7 +79,6 @@ export function useChangeUsername() {
       });
       throw new Error("Username already exists");
     }
-    console.log(uid, username)
     try {
       await updateDoc(doc(db, "users", uid), {
         username: username,

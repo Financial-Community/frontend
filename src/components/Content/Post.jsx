@@ -1,4 +1,4 @@
-import {Box, Button, Flex, Image, Text} from "@chakra-ui/react";
+import {Box, Button, Flex, Image, Text } from "@chakra-ui/react";
 import React, {useEffect, useState} from "react";
 import {getUser} from "../../context/UserContext";
 import axios from "axios";
@@ -7,7 +7,6 @@ import {UserProfileModal} from "../UserProfile";
 
 export function Post(props) {
   const {userId, showProfile, deleteAble = false} = props;
-  console.log(userId)
 
   const [user, setUser] = useState([]);
   const [post, setPost] = useState([]);
@@ -18,7 +17,6 @@ export function Post(props) {
         if (showProfile) {
           await getUser(userId)
             .then((response) => {
-              console.log(response);
               setUser(response);
             }).catch((error) => {
               console.log(error);
@@ -26,7 +24,6 @@ export function Post(props) {
         }
         await axios.get(`https://content-ep7jv6cjka-ey.a.run.app/content?userId=${userId}`)
           .then((response) => {
-            console.log(response.data.posts);
             setPost(response.data.posts);
           }).catch((error) => {
             console.log(error);
@@ -78,7 +75,7 @@ export function Post(props) {
           }
           {
             p.gcsLink ?
-              <Image m={"auto"} mt={3} mb={3} src={p.gcsLink} alt={"post"} maxW={"900px"} maxH={"90%"}/>
+              <Image m={"auto"} mt={3} mb={3} src={p.gcsLink} alt={"post"} maxW={"65%"} maxH={"90%"}/>
               : <></>
           }
 

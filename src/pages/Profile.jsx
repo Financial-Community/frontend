@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {Box, Button, Heading, Input, Text} from "@chakra-ui/react";
 import {useAuth} from "../context/AuthContext";
 import {useChangeUsername} from "../context/UserContext";
@@ -15,13 +15,21 @@ function Profile() {
   const {user, isLoading} = useAuth();
   const {register, handleSubmit, reset} = useForm();
 
+  const [username , setUsername] = useState("");
+
+  useEffect(() => {
+    if (!isLoading){
+      setUsername(user.username);
+    }
+  }, [isLoading, user?.username]);
+
   async function handleChangeUsername(data) {
     await changeUsername(user.id, data?.name);
+    setUsername(data?.name);
     reset();
   }
 
   if (!isLoading) {
-    console.log(user.id)
     return (
       <div>
         <Box
@@ -62,7 +70,7 @@ function Profile() {
           boxShadow={'rgba(0, 0, 0, 0.35) 0px 5px 15px'}
           fontSize={"19px"} color={"white"}>
           <Heading textAlign={"center"}>Profil-Verwaltung</Heading>
-          <Text fontSize={"22"}>Username: {user?.username}</Text>
+          <Text fontSize={"22"}>Username: {username}</Text>
           <form onSubmit={handleSubmit(handleChangeUsername)}>
             <Input
               id="name"

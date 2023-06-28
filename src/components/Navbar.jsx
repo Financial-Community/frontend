@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   Box,
   Flex,
@@ -23,8 +23,15 @@ const NAV_LINKS = [
 ]
 
 function Navbar() {
-  const {user, authUser} = useAuth();//  const {user, isAuthenticated, logout} = useAuth();
+  const {user, authUser, isLoading} = useAuth();//  const {user, isAuthenticated, logout} = useAuth();
   const {logout} = useLogout();
+  const [username, setUsername] = useState("");
+
+  useEffect(() => {
+    if (!isLoading){
+      setUsername(user.username);
+    }
+  }, [isLoading, user?.username]);
 
   return (
     <>
@@ -71,7 +78,7 @@ function Navbar() {
               minW={0}>
               <Avatar
                 size={'lg'}
-                name={user?.username}
+                name={username}
                 src={user?.avatar}
                 _hover={{cursor: 'pointer', opacity: '0.8'}}
               />

@@ -44,7 +44,7 @@ function Dashboard() {
       axios.put(`https://depot-ij6sqfx7va-uc.a.run.app/depot/update`, {
         "userId": id,
       }).then((response) => {
-        console.log(response);
+
       }).catch((error) => {
         console.log(error);
       });
