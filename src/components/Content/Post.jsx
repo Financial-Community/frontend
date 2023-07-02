@@ -57,7 +57,7 @@ export function Post(props) {
              m={"auto"}
              p={4}
              mb={10}
-             height={"90%"}
+             maxHeight={"90%"}
              w={"70%"}
              border={'1px solid #e2e8f0'}
              borderRadius={'10px'}
@@ -75,7 +75,10 @@ export function Post(props) {
           }
           {
             p.gcsLink ?
-              <Image m={"auto"} mt={3} mb={3} src={p.gcsLink} alt={"post"} maxW={"65%"} maxH={"90%"}/>
+              p.gcsLink.includes(".mp4") ?
+                <video src={p.gcsLink} controls/>
+              :
+                <Image m={"auto"} mt={3} mb={3} src={p.gcsLink} alt={"post"} maxW={"65%"} maxH={"90%"}/>
               : <></>
           }
 

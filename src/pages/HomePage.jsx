@@ -1,6 +1,8 @@
 import React from 'react';
 import {Box, Container, Flex, Image, Spacer, Text} from "@chakra-ui/react";
 import logo from '../assets/logo-black.png'
+import people from '../assets/connected_peopel.jpg'
+import stock from '../assets/stocks_on_phone.jpeg'
 import Navbar from "../components/Navbar";
 
 function Item({ textColor, headerText, bodyText, image, reverse = false }) {
@@ -46,17 +48,18 @@ function HomePage() {
           <Text>Was ist FinComm?</Text>
           <Text>FinComm ist ein Ort an dem Aktien Investoren sich zusammen finden und austauschen können.</Text>
         </Box>
+        <Image borderRadius={"10px"} m={"auto"} mt={4} width={"80%"} src={logo}></Image>
         <Item
           textColor={'white'}
           headerText={'Connect with people!'}
-          bodyText={'Learn for eachother!'}
-          image={logo}
+          bodyText={'Learn from eachother!'}
+          image={people}
         />
         <Item
           textColor={'white'}
-          headerText={'Connect with people!'}
-          bodyText={'Learn for eachother!'}
-          image={logo}
+          headerText={'Share your passion!'}
+          bodyText={'Share content that is important to you!'}
+          image={stock}
           reverse={true}
         />
       </Container>

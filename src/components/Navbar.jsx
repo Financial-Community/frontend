@@ -28,7 +28,7 @@ function Navbar() {
   const [username, setUsername] = useState("");
 
   useEffect(() => {
-    if (!isLoading){
+    if (!isLoading && user?.username){
       setUsername(user.username);
     }
   }, [isLoading, user?.username]);

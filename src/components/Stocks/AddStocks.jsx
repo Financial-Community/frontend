@@ -78,7 +78,7 @@ export function AddStocks(){
               <Text mt='8px'>Price</Text>
               <Input required={true} type={"number"} name={"price"} placeholder={"Price Current"} {...register("price")}/>
               <Text mt='8px'>Amount</Text>
-              <Input required={true} ype={"number"} name={"amount"} placeholder={"Amount Current"} {...register("amount")}/>
+              <Input required={true} ype={"number"} step={".01"} name={"amount"} placeholder={"Amount Current"} {...register("amount")}/>
             </ModalBody>
             <ModalFooter>
               <Button colorScheme="blue" mr={3} type={"submit"}>

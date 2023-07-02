@@ -51,7 +51,7 @@ export function UserProfileModal({user: currentUser}) {
         <Avatar name={currentUser.username} src={currentUser.avatar} onClick={onOpen} cursor="pointer"/>
         <Text>{currentUser.username}</Text>
       </Box>
-      <Modal isOpen={isOpen} onClose={onClose} size="3xl">
+      <Modal isOpen={isOpen} onClose={onClose} size="6xl">
         <ModalOverlay/>
         <ModalContent>
           <ModalHeader>
